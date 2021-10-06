@@ -19,20 +19,37 @@ class MainActivity : AppCompatActivity() {
         val userOutPut = findViewById<TextView>(R.id.outPut)
         number = editText.text.toString().toInt()
 
-        Log.d("NUM",number.toString())
         doMath(number)
         editText.visibility = View.GONE
         userOutPut.visibility = View.VISIBLE
         userOutPut.text = "$y"
+        y = ""
     }
 
     private fun doMath(x: Int) {
         if(x in 1..1000){
-            y + digits((x % 1000)/100)
-            y += " Hundred "
-            y + getTens((x % 100)/10 * 10)
-            y + getTen((x % 100)/10 * 10)
-            y + digits(x % 10)
+            if(x in 1..9){
+                y + digits(x % 10)
+            }
+            if (x in 10..19){
+                y + getTen(x)
+            }
+            if (x in 20..99){
+                y+getTens((x%100)/10 * 10)
+                y + digits(x % 10)
+            }
+            if(x in 100..999){
+                y + digits((x % 1000)/100)
+                y += " Hundred "
+                if ((x%100)/10 >= 2 ) {
+                    y + getTens((x % 100) / 10 * 10)
+                    y + digits(x % 10)
+                }
+                if ((x%100)/10 <= 1){
+                    y + getTen(x%100)
+                }
+            }
+
         }
         else{
             y+= "Out of scope"
@@ -71,6 +88,7 @@ class MainActivity : AppCompatActivity() {
 
     fun getTens(x:Int) {
         when (x) {
+            10 -> y + getTen(x)
             20 -> y += " Twenty "
             30 -> y += " Thirty "
             40 -> y += " Forty "
