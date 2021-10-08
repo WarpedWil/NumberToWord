@@ -2,7 +2,6 @@ package com.example.numbertoword
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -20,36 +19,35 @@ class MainActivity : AppCompatActivity() {
         number = editText.text.toString().toInt()
 
         doMath(number)
-        editText.visibility = View.GONE
+        //editText.visibility = View.GONE
         userOutPut.visibility = View.VISIBLE
         userOutPut.text = "$y"
         y = ""
     }
 
     private fun doMath(x: Int) {
-        if(x in 1..1000){
-            if(x in 1..9){
-                y + digits(x % 10)
-            }
-            if (x in 10..19){
-                y + getTen(x)
-            }
-            if (x in 20..99){
-                y+getTens((x%100)/10 * 10)
-                y + digits(x % 10)
-            }
-            if(x in 100..999){
-                y + digits((x % 1000)/100)
-                y += " Hundred "
-                if ((x%100)/10 >= 2 ) {
-                    y + getTens((x % 100) / 10 * 10)
-                    y + digits(x % 10)
-                }
-                if ((x%100)/10 <= 1){
-                    y + getTen(x%100)
-                }
+        if(x in 1..1000) {
+            if (x in 1..19) {
+                if (x in 10..19) {
+                    y + getTen(x)
+                } else y + digits(x % 10)
             }
 
+            if (x in 20..99) {
+                y + getTens((x % 100) / 10 * 10)
+                y + digits(x % 10)
+            }
+            if (x in 100..999) {
+                y + digits((x % 1000) / 100)
+                y += " Hundred "
+                if ((x % 100) / 10 >= 2) {
+                    y + getTens((x % 100) / 10 * 10)
+                    y + digits(x % 10)
+                }else y + getTen(x % 100)
+                if ((x % 100) / 10 <= 1) {
+                    y + digits(x%100)
+                }
+            }
         }
         else{
             y+= "Out of scope"
@@ -107,7 +105,5 @@ class MainActivity : AppCompatActivity() {
         val userButton = findViewById<Button>(R.id.convertBtn).setOnClickListener{
             intToString(it)
         }
-
-
     }
 }
